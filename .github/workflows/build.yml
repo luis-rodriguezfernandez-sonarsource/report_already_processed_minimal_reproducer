@@ -28,7 +28,7 @@ jobs:
         fail-fast: false
         matrix:
           branch: [main, java8]
-          include:
+          env:
             - branch: main
               java_version: '21'
             - branch: java8
