@@ -1,0 +1,62 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+      - java8
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    permissions: read-all
+    strategy:
+        fail-fast: false
+        matrix:
+          branch: [main, java8]
+          include:
+            - branch: main
+              java_version: '21'
+            - branch: java8
+              java_version: '8'
+    steps:
+
+      - name: Checkout ${{ env.branch }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.branch }}
+          fetch-depth: 0
+
+      - name: Setup Java ${{ env.java_version }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '${{ env.java_version }}'
+
+      - name: Build java project {{ env.java_version }}
+        run: |
+          javac -classpath . src/Main.java -d out
+
+      - name: Setup Java 21 for Sonar Scan
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          args: >
+            -Dsonar.projectKey=report_already_processed_minimal_reproducer
+            -Dsonar.projectName=report_already_processed_minimal_reproducer
+            -Dsonar.sources=src
+            -Dsonar.java.binaries=out
+            -Dsonar.java.source=${{ env.java_version }}
+            -Dsonar.java.target=${{ env.java_version }}
+            -Dsonar.branch.name=${{ env.branch }}
