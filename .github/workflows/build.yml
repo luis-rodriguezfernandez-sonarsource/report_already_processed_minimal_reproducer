@@ -64,3 +64,4 @@ jobs:
             -Dsonar.java.target=${{ env.java_version }}
             -Dsonar.branch.name=${{ env.branch }}
             -Dsonar.organization=luis-rodriguezfernandez-sonarsource
+            -Dsonar.verbose=true
