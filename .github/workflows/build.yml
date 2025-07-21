@@ -23,6 +23,10 @@ jobs:
           - branch: java8
             java_version: '8'
     steps:
+      - name: Test env variables
+        run: |
+          echo "Branch: ${{ env.branch }}"
+          echo "Java Version: ${{ env.java_version }}"
 
       - name: Checkout ${{ env.branch }}
         uses: actions/checkout@v4
