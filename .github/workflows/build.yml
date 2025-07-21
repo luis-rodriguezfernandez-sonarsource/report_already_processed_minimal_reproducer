@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - java8
+      - java17
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -16,9 +16,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branch: [main, java8]
+        branch: [main, java17]
     env:
-        java_version: ${{ matrix.branch == 'main' && '21' || '8' }}
+        java_version: ${{ matrix.branch == 'main' && '21' || '17' }}
         branch: ${{ matrix.branch }}
 
     steps:
@@ -63,3 +63,4 @@ jobs:
             -Dsonar.java.source=${{ env.java_version }}
             -Dsonar.java.target=${{ env.java_version }}
             -Dsonar.branch.name=${{ env.branch }}
+            -Dsonar.organization=luis-rodriguezfernandez-sonarsource
