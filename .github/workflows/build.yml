@@ -56,7 +56,7 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
           args: >
-            -Dsonar.projectKey=report_already_processed_minimal_reproducer
+            -Dsonar.projectKey=luis-rodriguezfernandez-sonarsource_report_already_processed_minimal_reproducer
             -Dsonar.projectName=report_already_processed_minimal_reproducer
             -Dsonar.sources=src
             -Dsonar.java.binaries=out
