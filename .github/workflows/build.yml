@@ -7,17 +7,6 @@ on:
       - java8
   pull_request:
     types: [opened, synchronize, reopened]
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch to analyze'
-        required: false
-        default: ''
-      java_version:
-        description: 'Java version to use'
-        required: false
-        default: '8'
-        type: string
 
 jobs:
   build:
@@ -25,14 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     permissions: read-all
     strategy:
-        fail-fast: false
-        matrix:
-          branch: [main, java8]
-          include:
-            - branch: main
-              java_version: '21'
-            - branch: java8
-              java_version: '8'
+      fail-fast: false
+      matrix:
+        branch: [main, java8]
+        env:
+          - branch: main
+            java_version: '21'
+          - branch: java8
+            java_version: '8'
     steps:
 
       - name: Checkout ${{ env.branch }}
