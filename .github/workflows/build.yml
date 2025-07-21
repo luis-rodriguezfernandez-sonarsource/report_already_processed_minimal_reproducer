@@ -17,11 +17,10 @@ jobs:
       fail-fast: false
       matrix:
         branch: [main, java8]
-        env:
-          - branch: main
-            java_version: '21'
-          - branch: java8
-            java_version: '8'
+    env:
+        java_version: ${{ matrix.branch == 'main' && '21' || '8' }}
+        branch: ${{ matrix.branch }}
+
     steps:
       - name: Test env variables
         run: |
