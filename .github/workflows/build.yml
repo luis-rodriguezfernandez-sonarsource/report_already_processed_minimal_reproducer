@@ -7,17 +7,6 @@ on:
       - java8
   pull_request:
     types: [opened, synchronize, reopened]
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch to analyze'
-        required: false
-        default: ''
-      java_version:
-        description: 'Java version to use'
-        required: false
-        default: '8'
-        type: string
 
 jobs:
   build:
